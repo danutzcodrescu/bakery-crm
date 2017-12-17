@@ -3,8 +3,10 @@ class Customer {
 	id: string;
 	fName: string;
 	lName: string;
-	address: string;
-	email: string;
+	address?: string;
+	email?: string;
+	lastPurchase?: Date;
+	totalAmount?: number;
 
 	constructor(fName: string, lName: string, address: string, email: string) {
 		this.id = uuid();

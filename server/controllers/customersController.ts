@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import Customer from "../models/customer";
 import CustomerData from "../data/customersData";
+import PurchaseData from "../data/purchasesData";
 
 export class CustomersRouter {
 	router: Router;
@@ -10,7 +11,17 @@ export class CustomersRouter {
 	}
 
 	public getAll(req: Request, res: Response, next: NextFunction) {
-		res.json(CustomerData);
+		const customers = CustomerData.map(customer => {
+			const lastPurchase = PurchaseData.reverse().find(
+				elem => elem.customer_id === customer.id
+			);
+			if (lastPurchase) {
+				customer.lastPurchase = lastPurchase.date;
+			}
+
+			return customer;
+		});
+		res.json(customers);
 	}
 
 	public insert(req: Request, res: Response, next: NextFunction) {
@@ -33,6 +44,16 @@ export class CustomersRouter {
 
 	public getOne(req: Request, res: Response, next: NextFunction) {
 		const index = CustomerData.findIndex(elem => elem.id === req.params.id);
+		let lastYearDate = new Date();
+		lastYearDate.setFullYear(lastYearDate.getFullYear() - 1);
+		CustomerData[index].totalAmount = PurchaseData.reduce((sum, acc) => {
+			if (
+				acc.customer_id === req.params.id &&
+				acc.date.getTime() >= lastYearDate.getTime()
+			)
+				return (sum += acc.value);
+			return sum;
+		}, 0);
 		res.json(CustomerData[index]);
 	}
 

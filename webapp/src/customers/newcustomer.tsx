@@ -3,7 +3,7 @@ import instance from "../helpers/axiosInstance";
 import { Link } from "react-router-dom";
 import "./customers.css";
 
-class NewCustomer extends React.Component {
+class NewCustomer extends React.Component<any> {
 	newCustomer = e => {
 		e.preventDefault();
 		const customer = {
@@ -14,7 +14,7 @@ class NewCustomer extends React.Component {
 		};
 		instance
 			.post("customers", customer)
-			.then(resp => console.log(resp))
+			.then(resp => this.props.history.push(`/customer/${resp.data.id}`))
 			.catch(err => alert("insert failed"));
 	};
 

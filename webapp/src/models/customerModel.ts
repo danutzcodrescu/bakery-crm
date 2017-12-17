@@ -4,6 +4,8 @@ type Customer = {
 	lName: string;
 	address?: string;
 	email?: string;
+	lastPurchase?: Date;
+	totalAmount?: number;
 };
 
 export default Customer;

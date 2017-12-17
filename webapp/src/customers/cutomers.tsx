@@ -3,6 +3,7 @@ import instance from "../helpers/axiosInstance";
 import "./customers.css";
 import CustomerModel from "../models/customerModel";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 type CustomerState = {
 	loading: boolean;
@@ -32,7 +33,12 @@ class Customers extends React.Component<any, CustomerState> {
 					</p>
 					{elem.address && <p>Address: {elem.address}</p>}
 					{elem.email && <p>Email: {elem.email}</p>}
-
+					{elem.lastPurchase && (
+						<p>
+							Last purchase:{" "}
+							{format(elem.lastPurchase, "DD/MM/YYYY")}
+						</p>
+					)}
 					<p>
 						<Link to={`/customer/${elem.id}`}>Edit</Link>
 					</p>

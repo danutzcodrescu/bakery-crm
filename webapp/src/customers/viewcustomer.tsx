@@ -3,6 +3,7 @@ import "./customers.css";
 import instance from "../helpers/axiosInstance";
 import CustomerModel from "../models/customerModel";
 import PurchaseModel from "../models/purchaseModel";
+import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
 type ViewCustomerState = {
@@ -13,6 +14,7 @@ type ViewCustomerState = {
 };
 
 class ViewCustomer extends React.Component<any, ViewCustomerState> {
+	private form: HTMLFormElement | null;
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -23,6 +25,10 @@ class ViewCustomer extends React.Component<any, ViewCustomerState> {
 		};
 	}
 	componentDidMount() {
+		this.retrieveData();
+	}
+
+	retrieveData() {
 		const customer = instance.get(
 			`customers/${this.props.match.params.id}`
 		);
@@ -42,15 +48,17 @@ class ViewCustomer extends React.Component<any, ViewCustomerState> {
 	}
 
 	newPurchase = e => {
+		e.preventDefault();
 		instance
 			.post(`customers/${this.props.match.params.id}/purchases`, {
-				value: e.target.value.value
+				value: parseFloat(e.target.value.value),
+				date: e.target.date.value
 			})
 			.then(resp => {
-				const purchases = [...this.state.purchases.slice(1), resp.data];
-				this.setState({ purchases });
+				this.retrieveData();
+				if (this.form) this.form.reset();
 			})
-			.catch(err => alert("insert failed"));
+			.catch(err => console.log(err));
 	};
 
 	editCustomer = e => {
@@ -90,6 +98,10 @@ class ViewCustomer extends React.Component<any, ViewCustomerState> {
 							{this.state.customer.email && (
 								<p>Email: {this.state.customer.email}</p>
 							)}
+							<p>
+								Spent amount during the past year:{" "}
+								{this.state.customer.totalAmount}
+							</p>
 							<br />
 							<button
 								onClick={() => this.setState({ edit: true })}
@@ -99,13 +111,17 @@ class ViewCustomer extends React.Component<any, ViewCustomerState> {
 							<br />
 							<form onSubmit={this.newPurchase}>
 								<label htmlFor="value">
-									Value:{" "}
+									Value:
 									<input
 										type="number"
 										name="value"
 										id="value"
 										required
 									/>
+								</label>
+								<label htmlFor="date">
+									Date:
+									<input type="date" name="date" id="date" />
 								</label>
 								<button type="submit">New purchase</button>
 							</form>
@@ -135,10 +151,16 @@ class ViewCustomer extends React.Component<any, ViewCustomerState> {
 									)}
 								</ol>
 							)}
+							<button>
+								<Link to="/">Back to customers overview</Link>
+							</button>
 						</div>
 					)}
 				{this.state.edit && (
-					<form onSubmit={this.editCustomer}>
+					<form
+						onSubmit={this.editCustomer}
+						ref={form => (this.form = form)}
+					>
 						<label htmlFor="fName">
 							First name:
 							<input
