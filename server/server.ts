@@ -5,6 +5,7 @@ import * as logger from "morgan";
 import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import customersRoute from "./controllers/customersController";
+import purchasesRoute from "./controllers/purchasesController";
 
 const app: Application = express();
 
@@ -26,6 +27,7 @@ app.use(function(req, res, next) {
 });
 
 app.use("/api/customers", customersRoute);
+app.use("/api/customers/:id/purchases", purchasesRoute);
 
 const httpServer = app.listen(3000, () => {
 	console.log(

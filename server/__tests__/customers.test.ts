@@ -1,6 +1,5 @@
 import "jest";
 import instace from "../helpers/baseUrl";
-import Customer from "../models/customer";
 const faker = require("faker");
 
 describe("Customers api", () => {

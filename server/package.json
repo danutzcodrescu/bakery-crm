@@ -26,6 +26,7 @@
 		"eslint-plugin-typescript": "^0.8.1",
 		"faker": "^4.1.0",
 		"jest": "^21.2.1",
+		"lodash": "^4.17.4",
 		"ts-jest": "^21.2.4",
 		"typescript": "^2.6.2",
 		"typescript-eslint-parser": "^11.0.0"
@@ -36,6 +37,11 @@
 		},
 		"testEnvironment": "node",
 		"testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-		"moduleFileExtensions": ["ts", "tsx", "js", "json"]
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js",
+			"json"
+		]
 	}
 }
