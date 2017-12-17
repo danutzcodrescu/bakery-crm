@@ -31,10 +31,16 @@ export class CustomersRouter {
 		res.json(CustomerData[index]);
 	}
 
+	public getOne(req: Request, res: Response, next: NextFunction) {
+		const index = CustomerData.findIndex(elem => elem.id === req.params.id);
+		res.json(CustomerData[index]);
+	}
+
 	init() {
 		this.router.get("/", this.getAll);
 		this.router.post("/", this.insert);
 		this.router.patch("/:id", this.updateOne);
+		this.router.get("/:id", this.getOne);
 	}
 }
 

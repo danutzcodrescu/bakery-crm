@@ -1,0 +1,22 @@
+.container {
+	height: 100vh;
+	overflow-y: auto;
+}
+
+.customer {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.customer p {
+	margin-left: 10px;
+}
+
+form label {
+	display: block;
+}
+
+form label input {
+	margin-left: 5px;
+	width: 150px;
+}

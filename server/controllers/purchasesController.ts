@@ -23,8 +23,8 @@ export class PurchasesRouter {
 	public insert(req: Request, res: Response, next: NextFunction) {
 		const purchase = new Purchase(
 			req.params.id,
-			req.params.value,
-			req.params.date
+			req.body.value,
+			req.body.date
 		);
 		PurchaseData.push(purchase);
 		res.json(purchase);
