@@ -29,7 +29,7 @@ app.use(function(req, res, next) {
 app.use("/api/customers", customersRoute);
 app.use("/api/customers/:id/purchases", purchasesRoute);
 
-const httpServer = app.listen(3000, () => {
+const httpServer = app.listen(3001, () => {
 	console.log(
 		"HTTP Server running at https://localhost:" + httpServer.address().port
 	);

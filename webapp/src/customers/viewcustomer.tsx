@@ -14,7 +14,6 @@ type ViewCustomerState = {
 };
 
 class ViewCustomer extends React.Component<any, ViewCustomerState> {
-	private form: HTMLFormElement | null;
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -56,9 +55,8 @@ class ViewCustomer extends React.Component<any, ViewCustomerState> {
 			})
 			.then(resp => {
 				this.retrieveData();
-				if (this.form) this.form.reset();
 			})
-			.catch(err => console.log(err));
+			.catch(err => alert(err));
 	};
 
 	editCustomer = e => {
@@ -157,10 +155,7 @@ class ViewCustomer extends React.Component<any, ViewCustomerState> {
 						</div>
 					)}
 				{this.state.edit && (
-					<form
-						onSubmit={this.editCustomer}
-						ref={form => (this.form = form)}
-					>
+					<form onSubmit={this.editCustomer}>
 						<label htmlFor="fName">
 							First name:
 							<input
